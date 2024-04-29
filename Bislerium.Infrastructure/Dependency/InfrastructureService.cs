@@ -24,6 +24,8 @@ public static class InfrastructureService
 
         services.AddTransient<IGenericRepository, GenericRepository>();
         services.AddTransient<IFileUploadService, FileUploadService>();
+        services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IEmailService, EmailService>();
 
         return services;
     }

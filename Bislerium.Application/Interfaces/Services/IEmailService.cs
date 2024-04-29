@@ -1,6 +1,8 @@
-﻿namespace Bislerium.Application.Interfaces.Services;
+﻿using Bislerium.Application.DTOs.Email;
+
+namespace Bislerium.Application.Interfaces.Services;
 
 public interface IEmailService
 {
-    Task SendEmail();
+    void SendEmail(EmailDto email);
 }

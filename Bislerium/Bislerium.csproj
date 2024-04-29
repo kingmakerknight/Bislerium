@@ -20,7 +20,6 @@
 
     <ItemGroup>
       <Folder Include="Attributes\" />
-      <Folder Include="Controllers\" />
       <Folder Include="Middlewares\" />
     </ItemGroup>
 
