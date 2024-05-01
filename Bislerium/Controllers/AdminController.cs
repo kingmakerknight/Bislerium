@@ -1,6 +1,7 @@
 using System.Net;
 using Bislerium.Application.DTOs.Account;
 using Bislerium.Application.DTOs.Base;
+using Bislerium.Application.DTOs.Dashboard;
 using Bislerium.Application.DTOs.User;
 using Bislerium.Application.Interfaces.Repositories.Base;
 using Bislerium.Entities.Constants;
@@ -91,4 +92,99 @@ public class AdminController : Controller
             TotalCount = 0
         });
     }
+    
+    [HttpGet("dashboard-details")]
+    public IActionResult GetDashboardDetails()
+    {
+        var blogs = _genericRepository.Get<Blog>(x => x.IsActive);
+      
+        var reactions = _genericRepository.Get<Reaction>(x => x.IsActive);
+
+        var comments = _genericRepository.Get<Comment>(x => x.IsActive);
+
+        var blogDetails = blogs as Blog[] ?? blogs.ToArray();
+          
+        var reactionDetails = reactions as Reaction[] ?? reactions.ToArray();
+
+        var commentDetails = comments as Comment[] ?? comments.ToArray();
+
+        var dashboardDetails = new DashboardCount()
+        {
+            Posts = blogDetails.Length,
+            Comments = commentDetails.Length,
+            UpVotes = reactionDetails.Count(x => x.ReactionId == 1),
+            DownVotes = reactionDetails.Count(x => x.ReactionId == 2),
+        };
+
+        var blogDetailsList = new List<BlogDetails>();
+      
+        foreach (var blog in blogDetails)
+        {
+            var upVotes = reactionDetails.Where(x => x.ReactionId == 1 && x.BlogId == blog.Id && x.IsReactedForBlog);
+         
+            var downVotes = reactionDetails.Where(x => x.ReactionId == 2 && x.BlogId == blog.Id && x.IsReactedForBlog);
+         
+            var commentReactions = commentDetails.Where(x => x.BlogId == blog.Id && x.IsCommentForBlog);
+
+            var commentForComments =
+                commentDetails.Where(x => 
+                    commentReactions.Select(z => 
+                        z.CommentId).Contains(x.CommentId) && x.IsCommentForComment);
+
+            var popularity = upVotes.Count() * 2 - 
+                                downVotes.Count() * 1 + 
+                                commentReactions.Count() + commentForComments.Count();
+         
+            blogDetailsList.Add(new BlogDetails()
+            {
+                BlogId = blog.Id,
+                Blog = blog.Title,
+                BloggerId = blog.CreatedBy,
+                Popularity = popularity
+            });
+        }
+      
+        var bloggerDetailsList = blogDetailsList
+            .GroupBy(blog => blog.BloggerId)
+            .Select(group => new BloggerDetails
+            {
+                BloggerId = group.Key,
+                BloggerName = _genericRepository.GetById<User>(group.Key).FullName,
+                Popularity = group.Sum(blog => blog.Popularity)
+            }).ToList();
+
+        var popularBlogs = blogDetailsList
+            .OrderByDescending(x => x.Popularity)
+            .Take(10).Select(z => new PopularBlog() 
+            {
+                BlogId = z.BlogId,
+                Blog = z.Blog
+            }).ToList();
+
+        var popularBloggers = bloggerDetailsList
+            .OrderByDescending(x => x.Popularity)
+            .Take(10).Select(z => new PopularBlogger() 
+            {
+                BloggerId = z.BloggerId,
+                BloggerName = z.BloggerName
+            }).ToList();
+
+        var dashboardCounts = new DashboardDetailsDto()
+        {
+            DashboardCount = dashboardDetails,
+            PopularBloggers = popularBloggers,
+            PopularBlogs = popularBlogs
+        };
+
+        var result = new ResponseDto<DashboardDetailsDto>()
+        {
+            Message = "Success",
+            StatusCode = HttpStatusCode.OK,
+            TotalCount = 1,
+            Result = dashboardCounts,
+            Status = "Success"
+        };
+
+        return Ok(result);
+   }
 }

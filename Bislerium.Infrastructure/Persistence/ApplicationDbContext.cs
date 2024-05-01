@@ -14,9 +14,15 @@ public sealed class ApplicationDbContext : DbContext
     public DbSet<Blog> Blogs { get; set; }
     
     public DbSet<BlogImage> BlogImages { get; set; }
+
+    public DbSet<BlogLog> BlogLogs { get; set; }
     
     public DbSet<Comment> Comments { get; set; }
-    
+
+    public DbSet<CommentLog> CommentLogs { get; set; }
+
+    public DbSet<Notification> Notifications { get; set; }
+
     public DbSet<Reaction> Reactions { get; set; }
     
     public DbSet<Role> Roles { get; set; }

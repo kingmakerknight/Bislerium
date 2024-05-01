@@ -38,7 +38,10 @@ public class BlogController : Controller
             Reaction = blog.Reaction,
             BlogImages = blog.Images.Select(x => new BlogImage()
             {
-                ImageURL = x
+                ImageURL = x,
+                IsActive = true,
+                CreatedAt = DateTime.Now,
+                CreatedBy = user.Id
             }).ToList(),
             CreatedAt = DateTime.Now,
             CreatedBy = user.Id,

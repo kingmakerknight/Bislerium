@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Bislerium.Entities.Constants;
 
 namespace Bislerium.Entities.Models;
 
-public class BlogImage
+public class BlogImage : BaseEntity<int>
 {
     public string ImageURL { get; set; }
     

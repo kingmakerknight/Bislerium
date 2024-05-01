@@ -13,4 +13,17 @@ public static class ExtensionMethod
         
         return renamedFileName + fileExtension;
     }
+    
+    public static void Shuffle<T>(this IList<T> list)  
+    {  
+        var random = new Random();  
+        
+        var n = list.Count;  
+        
+        while (n > 1) {  
+            n--;  
+            var k = random.Next(n + 1);  
+            (list[k], list[n]) = (list[n], list[k]);
+        }  
+    }
 }
