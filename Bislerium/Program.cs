@@ -89,6 +89,8 @@ var app = builder.Build();
 
 app.UseSwagger();
 
+app.UseStaticFiles();
+
 app.UseSwaggerUI(c =>
 {
     c.ConfigObject.AdditionalItems.Add("persistAuthorization","true");

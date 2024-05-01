@@ -19,8 +19,6 @@ public class BaseEntity<TPrimaryKey>
 
     public DateTime? LastModifiedAt { get; set; }
 
-    public bool IsDeleted { get; set; } = false;
-
     public int? DeletedBy { get; set; }
 
     public DateTime? DeletedAt { get; set; }

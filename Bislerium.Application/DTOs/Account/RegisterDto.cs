@@ -2,8 +2,6 @@ namespace Bislerium.Application.DTOs.Account;
 
 public class RegisterDto
 {
-    public int RoleId { get; set; }
-    
     public string Username { get; set; }
 
     public string EmailAddress { get; set; }

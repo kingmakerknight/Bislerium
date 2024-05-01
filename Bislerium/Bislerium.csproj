@@ -21,6 +21,8 @@
     <ItemGroup>
       <Folder Include="Attributes\" />
       <Folder Include="Middlewares\" />
+      <Folder Include="wwwroot\blog-images\" />
+      <Folder Include="wwwroot\user-images\" />
     </ItemGroup>
 
     <ItemGroup>
