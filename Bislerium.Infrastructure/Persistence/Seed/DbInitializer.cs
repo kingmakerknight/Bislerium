@@ -15,11 +15,13 @@ public class DbInitializer(IGenericRepository genericRepository) : IDbInitialize
             {
                 var admin = new Role()
                 {
-                    Name = Constants.Roles.Admin
+                    Name = Constants.Roles.Admin,
+                    Description = "Admin"
                 };
                 var blogger = new Role()
                 {
-                    Name = Constants.Roles.Blogger
+                    Name = Constants.Roles.Blogger,
+                    Description = "Blogger"
                 };
 
                 genericRepository.Insert(admin);

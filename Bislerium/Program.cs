@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Bislerium.Entities.Utilities;
 using Bislerium.Infrastructure.Dependency;
+using Bislerium.Infrastructure.Persistence.Seed;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -112,5 +113,12 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseHttpsRedirection();
+
+using (var scope = app.Services.CreateScope())
+{
+	var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+
+	dbInitializer.Initialize();
+}
 
 app.Run();

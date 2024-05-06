@@ -59,7 +59,7 @@ public class ProfileController : Controller
         });
     }
 
-    [HttpPatch]
+    [HttpPatch("update-profile-details")]
     public IActionResult UpdateProfileDetails(ProfileDetailsDto profileDetails)
     {
         var user = _genericRepository.GetById<User>(profileDetails.UserId);
@@ -79,7 +79,7 @@ public class ProfileController : Controller
         });
     }
 
-    [HttpDelete]
+    [HttpDelete("delete-profile")]
     public IActionResult DeleteProfile()
     {
         var userId = _userService.UserId;
@@ -114,7 +114,7 @@ public class ProfileController : Controller
         });
     }
 
-    [HttpPost]
+    [HttpPost("change-password")]
     public IActionResult ChangePassword(ChangePasswordDto changePassword)
     {
         var userId = _userService.UserId;
@@ -149,7 +149,7 @@ public class ProfileController : Controller
         });
     }
 
-    [HttpPost]
+    [HttpPost("reset-password")]
     public IActionResult ResetPassword(string emailAddress)
     {
         var user = _genericRepository.GetFirstOrDefault<User>(x => x.EmailAddress == emailAddress);
