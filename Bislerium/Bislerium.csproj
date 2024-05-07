@@ -23,13 +23,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Attributes\" />
-      <Folder Include="Middlewares\" />
       <Folder Include="wwwroot\blog-images\" />
       <Folder Include="wwwroot\user-images\" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Bislerium.Application\Bislerium.Application.csproj" />
       <ProjectReference Include="..\Bislerium.Infrastructure\Bislerium.Infrastructure.csproj" />
     </ItemGroup>
 
